@@ -33,7 +33,7 @@ import java.util.List;
  * When RecyclerView needs direct access to the view group children, it can call unfiltered
  * methods like get getUnfilteredChildCount or getUnfilteredChildAt.
  */
-class ChildHelper {
+public class ChildHelper {
 
     private static final boolean DEBUG = false;
 
@@ -392,7 +392,7 @@ class ChildHelper {
     /**
      * Bitset implementation that provides methods to offset indices.
      */
-    static class Bucket {
+    public static class Bucket {
 
         final static int BITS_PER_WORD = Long.SIZE;
 
@@ -402,7 +402,7 @@ class ChildHelper {
 
         Bucket next;
 
-        void set(int index) {
+        public void set(int index) {
             if (index >= BITS_PER_WORD) {
                 ensureNext();
                 next.set(index - BITS_PER_WORD);
@@ -417,7 +417,7 @@ class ChildHelper {
             }
         }
 
-        void clear(int index) {
+        public void clear(int index) {
             if (index >= BITS_PER_WORD) {
                 if (next != null) {
                     next.clear(index - BITS_PER_WORD);
@@ -428,7 +428,7 @@ class ChildHelper {
 
         }
 
-        boolean get(int index) {
+        public boolean get(int index) {
             if (index >= BITS_PER_WORD) {
                 ensureNext();
                 return next.get(index - BITS_PER_WORD);
@@ -437,14 +437,14 @@ class ChildHelper {
             }
         }
 
-        void reset() {
+        public void reset() {
             mData = 0;
             if (next != null) {
                 next.reset();
             }
         }
 
-        void insert(int index, boolean value) {
+        public void insert(int index, boolean value) {
             if (index >= BITS_PER_WORD) {
                 ensureNext();
                 next.insert(index - BITS_PER_WORD, value);
@@ -466,7 +466,7 @@ class ChildHelper {
             }
         }
 
-        boolean remove(int index) {
+        public boolean remove(int index) {
             if (index >= BITS_PER_WORD) {
                 ensureNext();
                 return next.remove(index - BITS_PER_WORD);
@@ -489,7 +489,13 @@ class ChildHelper {
             }
         }
 
-        int countOnesBefore(int index) {
+        /**
+         * 计算bit为1的个数
+         * 例如 0001 1010，如果index为5，则结果为3；如果index为4，则结果是2
+         * @param index 从0开始，
+         * @return
+         */
+        public int countOnesBefore(int index) {
             if (next == null) {
                 if (index >= BITS_PER_WORD) {
                     return Long.bitCount(mData);
